@@ -54,29 +54,29 @@ class PetUtils {
 
             return Container(
               width: MediaQuery.of(context).size.width * 0.7,
-              height: 120,
+              height: 260,
               margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.blue),
+                border: Border.all(color: Colors.black),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
                     getPetImagePath(colorSnapshot.data!),
-                    width: 100,
-                    height: 100,
+                    width: 200,
+                    height: 200,
                     fit: BoxFit.contain,
                   ),
-                  SizedBox(width: 16),
+                  SizedBox(width: 10),
                   Text(
                     nameSnapshot.data!,
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.blue[800],
+                      color: Colors.black,
                     ),
                   ),
                 ],
