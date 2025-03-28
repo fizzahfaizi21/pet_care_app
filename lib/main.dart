@@ -84,6 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
             _currentIndex = index;
           });
         },
+        type:
+            BottomNavigationBarType
+                .fixed, // Added this line to support more than 3 items
         selectedItemColor: Colors.blue[800],
         unselectedItemColor: Colors.blue[200],
         items: const <BottomNavigationBarItem>[
