@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home_screen.dart';
 import 'care_screen.dart';
 import 'illness_screen.dart';
 import 'reminders_screen.dart';
+import 'pet_onboarding_screen.dart';
+import 'package:petappgroup/pet_utils.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,12 +15,46 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: HomeScreen(),
+      title: 'Pet Care App',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: PetProfileChecker(),
     );
+  }
+}
+
+class PetProfileChecker extends StatefulWidget {
+  @override
+  _PetProfileCheckerState createState() => _PetProfileCheckerState();
+}
+
+class _PetProfileCheckerState extends State<PetProfileChecker> {
+  @override
+  void initState() {
+    super.initState();
+    _checkPetProfile();
+  }
+
+  Future<void> _checkPetProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    final petName = prefs.getString('petName');
+    final petColor = prefs.getString('petColor');
+
+    if (petName == null || petColor == null) {
+      // No pet profile, navigate to onboarding
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => PetOnboardingScreen()),
+      );
+    } else {
+      // Pet profile exists, go to main app
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }
 
@@ -47,17 +84,11 @@ class _HomeScreenState extends State<HomeScreen> {
             _currentIndex = index;
           });
         },
-        selectedItemColor: Colors.blue[800], // Darker blue for the selected icon
-        unselectedItemColor: Colors.blue[200], // Light blue for unselected icons
+        selectedItemColor: Colors.blue[800],
+        unselectedItemColor: Colors.blue[200],
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Care',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Care'),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_hospital),
             label: 'Illness',
